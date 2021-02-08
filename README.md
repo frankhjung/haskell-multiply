@@ -59,7 +59,7 @@ make bench
 
 ## Execute
 
-To run the default multiplication algorithm (`multiply3`):
+To run the default multiplication algorithm (`multiply4`):
 
 ```bash
 stack exec multiplyApp 12 15

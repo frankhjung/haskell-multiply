@@ -13,12 +13,12 @@ algorithm.
 
 module Main (main) where
 
-import           Multiply           (multiply3)
+import           Multiply           (multiply4)
 import           System.Environment (getArgs)
 
 solve :: [Word] -> Word
 solve []      = error "Usage multiplyApp a b"
-solve (a:b:_) = multiply3 a b
+solve (a:b:_) = multiply4 a b
 solve [_]     = error "Usage multiplyApp a b"
 
 -- | Run example, read values from STDIN.

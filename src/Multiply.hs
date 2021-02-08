@@ -15,12 +15,14 @@ module Multiply ( multiply0
                 , multiply2
                 , multiply3
                 , multiply4
-                , binary
                 , double
                 , doubles
                 , half
                 , halves
+                , oddHalvesBinary
                 ) where
+
+import           Data.List (foldl')
 
 -- | The <https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication Egyptian multiplication>
 -- as described by Ahmes.
@@ -56,8 +58,8 @@ multiply3 a b = foldr ((+) . snd) 0 $ filter (odd . fst) $ zip (halves a) (doubl
 -- | Non-recursive version of Egyptian multiplication
 -- by <https://mathspp.com/blog/egyptian-multiplication#comment-5257985406 Rodrigo Girão Serrão>
 multiply4 :: Word -> Word -> Word
-multiply4 a b = foldl (\s p -> s + uncurry (*) p) 0 pairs
-  where pairs = zip (binary a) (doubles b)
+multiply4 a b = foldl' (\s p -> s + uncurry (*) p) 0 pairs
+  where pairs = zip (oddHalvesBinary a) (doubles b)
 
 -- | Double the current value.
 double :: Word -> Word
@@ -77,5 +79,5 @@ halves a = takeWhile (>0) (iterate half a)
 
 -- | Repeatadly half the given integer until 1
 -- then replace even entries with 0 and odd entries with 1.
-binary :: Word -> [Word]
-binary a = flip mod 2 <$> halves a
+oddHalvesBinary :: Word -> [Word]
+oddHalvesBinary a = flip mod 2 <$> halves a
