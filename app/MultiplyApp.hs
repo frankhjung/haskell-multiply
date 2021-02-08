@@ -16,7 +16,7 @@ module Main (main) where
 import           Multiply           (multiply3)
 import           System.Environment (getArgs)
 
-solve :: [Int] -> Int
+solve :: [Word] -> Word
 solve []      = error "Usage multiplyApp a b"
 solve (a:b:_) = multiply3 a b
 solve [_]     = error "Usage multiplyApp a b"

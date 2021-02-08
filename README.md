@@ -9,3 +9,13 @@ A non-recursive version using `foldl` was originally authored by Rodrigo Girão
 Serrão after conversations on his blog [Egyptian multiplication with
 Haskell](https://mathspp.com/blog/egyptian-multiplication).
 
+## Documentation
+
+[Haddock](https://www.haskell.org/haddock/doc/html/index.html) API
+documentation is available on:
+
+* [GitHub](https://frankhjung.github.io/haskell-multiply/)
+  * [Criterion benchmarks](https://frankhjung.github.io/haskell-multiply/benchmark.html)
+* [GitLab](https://frankhjung1.gitlab.io/haskell-multiply/)
+  * [Criterion benchmarks](https://frankhjung1.gitlab.io/haskell-multiply/benchmark.html)
+

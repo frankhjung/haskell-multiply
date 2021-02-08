@@ -13,12 +13,12 @@ spec :: Spec
 spec =
   describe"multiplication algorithms for positive integers" $ do
     prop "multiply0" $
-      \(Positive (a :: Int), Positive (b :: Int)) -> multiply0 a b == a * b
+      \(Positive (a :: Word), Positive (b :: Word)) -> multiply0 a b == a * b
     prop "multiply1" $
-      \(Positive (a :: Int), Positive (b :: Int)) -> multiply1 a b == a * b
+      \(Positive (a :: Word), Positive (b :: Word)) -> multiply1 a b == a * b
     prop "multiply2" $
-      \(Positive (a :: Int), Positive (b :: Int)) -> multiply2 a b == a * b
+      \(Positive (a :: Word), Positive (b :: Word)) -> multiply2 a b == a * b
     prop "multiply3" $
-      \(Positive (a :: Int), Positive (b :: Int)) -> multiply3 a b == a * b
+      \(Positive (a :: Word), Positive (b :: Word)) -> multiply3 a b == a * b
     prop "multiply4" $
-      \(Positive (a :: Int), Positive (b :: Int)) -> multiply4 a b == a * b
+      \(Positive (a :: Word), Positive (b :: Word)) -> multiply4 a b == a * b
