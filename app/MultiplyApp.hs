@@ -6,7 +6,7 @@ Perform multiplication of 2 natural numbers using the
 <https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication Egyptian multiplication>
 algorithm.
 
->>> runhaskell multiplyApp.hs 12 15
+>>> stack exec multiplyApp 12 15
 180
 
 -}
@@ -23,7 +23,7 @@ solve [_]     = error "Usage multiplyApp a b"
 
 -- | Run example, read values from STDIN.
 --
--- >>> runhaskell multiply.hs 12 15
+-- >>> stack exec multiplyApp 12 15
 -- 180
 main :: IO ()
 main = getArgs >>= print . solve . map read

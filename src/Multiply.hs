@@ -1,11 +1,11 @@
 {-|
 
 Module      : Multiply
-Description : Multiplication alogorithms
+Description : Multiplication algorithms
 Copyright   : © Frank Jung, 2021
 License     : GPL-3
 
-Haskell implementations of mulitplication alogorithms as described by
+Haskell implementations of multiplication algorithms as described by
 <https://play.google.com/store/books/details?pcampaignid=books_read_action&id=UqxYBQAAQBAJ From Mathematics to Generic Programming>.
 
 -}
@@ -31,9 +31,9 @@ multiply0 a b = if a <= 1 then b else b + multiply0 (a - 1) b
 multiply1 :: Word -> Word -> Word
 multiply1 a b
   | a <= 1    = b
-  | odd a     = r + b
-  | otherwise = r
-  where r = multiply1 (half a) (double b)
+  | odd a     = s + b
+  | otherwise = s
+  where s = multiply1 (half a) (double b)
 
 -- | Improved Ahmes algorithm using an accumulator.
 multiply2 :: Word -> Word -> Word
@@ -42,10 +42,10 @@ multiply2 a b
   | otherwise = multiplyacc b (a - 1) b
   where
     multiplyacc :: Word -> Word -> Word -> Word
-    multiplyacc r x y
-      | x <= 1    = r + y
-      | odd x     = multiplyacc (r + y) (half x) (double y)
-      | otherwise = multiplyacc r (half x) (double y)
+    multiplyacc s x y
+      | x <= 1    = s + y
+      | odd x     = multiplyacc (s + y) (half x) (double y)
+      | otherwise = multiplyacc s (half x) (double y)
 
 -- | Non-recursive version of Egyptian multiplication.
 -- Based on
@@ -56,8 +56,8 @@ multiply3 a b = foldr ((+) . snd) 0 $ filter (odd . fst) $ zip (halves a) (doubl
 -- | Non-recursive version of Egyptian multiplication
 -- by <https://mathspp.com/blog/egyptian-multiplication#comment-5257985406 Rodrigo Girão Serrão>
 multiply4 :: Word -> Word -> Word
-multiply4 a b = foldl (\r p -> r + uncurry (*) p) 0 pairs
-  where pairs = zip  (binary a) (iterate double b)
+multiply4 a b = foldl (\s p -> s + uncurry (*) p) 0 pairs
+  where pairs = zip (binary a) (doubles b)
 
 -- | Double the current value.
 double :: Word -> Word

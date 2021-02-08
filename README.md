@@ -19,3 +19,48 @@ documentation is available on:
 * [GitLab](https://frankhjung1.gitlab.io/haskell-multiply/)
   * [Criterion benchmarks](https://frankhjung1.gitlab.io/haskell-multiply/benchmark.html)
 
+## Setup
+
+To ensure package dependencies are installed, call:
+
+```bash
+make setup
+```
+
+## Build
+
+To build run GNU Make with:
+
+```bash
+make
+```
+
+This runs the default targets of `check` and `fast`.
+
+## Test
+
+```bash
+make test
+```
+
+## Benchmark
+
+The first time you run the benchmarks, ensure `doc` target is called:
+
+```bash
+make doc bench
+```
+
+After which you can run just:
+
+```bash
+make bench
+```
+
+## Execute
+
+To run the default multiplication algorithm (`multiply3`):
+
+```bash
+stack exec multiplyApp 12 15
+```
