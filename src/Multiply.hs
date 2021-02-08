@@ -1,0 +1,81 @@
+{-|
+
+Module      : Multiply
+Description : Multiplication alogorithms
+Copyright   : © Frank Jung, 2021
+License     : GPL-3
+
+Haskell implementations of mulitplication alogorithms as described by
+<https://play.google.com/store/books/details?pcampaignid=books_read_action&id=UqxYBQAAQBAJ From Mathematics to Generic Programming>.
+
+-}
+
+module Multiply ( multiply0
+                , multiply1
+                , multiply2
+                , multiply3
+                , multiply4
+                , binary
+                , double
+                , doubles
+                , half
+                , halves
+                ) where
+
+-- | The <https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication Egyptian multiplication>
+-- as described by Ahmes.
+multiply0 :: Int -> Int -> Int
+multiply0 a b = if a == 1 then b else b + multiply0 (a - 1) b
+
+-- | Improved Ahmes algorithm.
+multiply1 :: Int -> Int -> Int
+multiply1 a b
+  | a == 1    = b
+  | odd a     = r + b
+  | otherwise = r
+  where r = multiply1 (half a) (double b)
+
+-- | Improved Ahmes algorithm using an accumulator.
+multiply2 :: Int -> Int -> Int
+multiply2 a b
+  | a == 1    = b
+  | otherwise = multiplyacc b (a - 1) b
+  where
+    multiplyacc :: Int -> Int -> Int -> Int
+    multiplyacc r x y
+      | x == 1    = r + y
+      | odd x     = multiplyacc (r + y) (half x) (double y)
+      | otherwise = multiplyacc r (half x) (double y)
+
+-- | Non-recursive version of Egyptian multiplication.
+-- Based on
+-- <http://www.mathnstuff.com/math/spoken/here/2class/60/egyptm.htm MathnStuff Egyptian multiplication>.
+multiply3 :: Int -> Int -> Int
+multiply3 a b = foldr ((+) . snd) 0 $ filter (odd . fst) $ zip (halves a) (doubles b)
+
+-- | Non-recursive version of Egyptian multiplication
+-- by <https://mathspp.com/blog/egyptian-multiplication#comment-5257985406 Rodrigo Girão Serrão>
+multiply4 :: Int -> Int -> Int
+multiply4 a b = foldl (\r p -> r + uncurry (*) p) 0 pairs
+  where pairs = zip  (binary a) (iterate double b)
+
+-- | Double the current value.
+double :: Int -> Int
+double a = a + a
+
+-- | Continuously double value.
+doubles :: Int -> [Int]
+doubles = iterate double
+
+-- | Half the current value.
+half :: Int -> Int
+half = flip div 2
+
+-- | List of halves until 1.
+halves :: Int -> [Int]
+halves a = takeWhile (>0) (iterate half a)
+
+-- | Repeatadly half the given integer until 1
+-- then replace even entries with 0 and odd entries with 1.
+binary :: Int -> [Int]
+binary a = flip mod 2 <$> halves a
