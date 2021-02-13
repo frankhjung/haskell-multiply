@@ -13,17 +13,36 @@ algorithm.
 
 module Main (main) where
 
-import           Multiply           (multiply4)
 import           System.Environment (getArgs)
 
-solve :: [Word] -> Word
-solve []      = error "Usage multiplyApp a b"
-solve (a:b:_) = multiply4 a b
-solve [_]     = error "Usage multiplyApp a b"
+import           Data.Version       (showVersion)
+import           Multiply           (multiply4)
+import           Paths_multiply     (version)
+
+-- Read two numbers from command line to multiply together using
+-- default algorithm.
+
+-- TODO add option to select algorithm to run
+
+-- read version from cabal configuration
+
+usage :: [String]
+usage = [
+          "Usage: multiplyApp [int] [int]"
+        , "This uses the Egyptian algorithm to multiply two positive integers."
+        , "See https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication"
+        , "Version: " ++ showVersion version
+        ]
 
 -- | Run example, read values from STDIN.
 --
 -- >>> stack exec multiplyApp 12 15
 -- 180
 main :: IO ()
-main = getArgs >>= print . solve . map read
+main = do
+    args <- getArgs
+    case length args of
+      2 ->  let [a, b] = map read args :: [Word]
+            in print $ multiply4 a b
+      _ ->  putStrLn $ unlines usage
+
