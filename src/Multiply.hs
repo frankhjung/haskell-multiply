@@ -27,10 +27,14 @@ import           Data.List (foldl')
 -- | The <https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication Egyptian multiplication>
 -- as described by Ahmes.
 multiply0 :: Word -> Word -> Word
+multiply0 0 _ = 0
+multiply0 _ 0 = 0
 multiply0 a b = if a <= 1 then b else b + multiply0 (a - 1) b
 
 -- | Improved Ahmes algorithm.
 multiply1 :: Word -> Word -> Word
+multiply1 0 _ = 0
+multiply1 _ 0 = 0
 multiply1 a b
   | a <= 1    = b
   | odd a     = s + b
@@ -39,6 +43,8 @@ multiply1 a b
 
 -- | Improved Ahmes algorithm using an accumulator.
 multiply2 :: Word -> Word -> Word
+multiply2 0 _ = 0
+multiply2 _ 0 = 0
 multiply2 a b
   | a <= 1    = b
   | otherwise = multiplyacc b (a - 1) b
