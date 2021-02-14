@@ -6,7 +6,7 @@ Perform multiplication of 2 natural numbers using the
 <https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication Egyptian multiplication>
 algorithm.
 
->>> stack exec multiplyApp 12 15
+>>> stack exec multiply 12 15
 180
 
 -}
@@ -28,7 +28,7 @@ import           Paths_multiply     (version)
 
 usage :: [String]
 usage = [
-          "Usage: multiplyApp [int] [int]"
+          "Usage: multiply [int] [int]"
         , "This uses the Egyptian algorithm to multiply two positive integers."
         , "See https://en.wikipedia.org/wiki/Ancient_Egyptian_multiplication"
         , "Version: " ++ showVersion version
@@ -36,7 +36,7 @@ usage = [
 
 -- | Run example, read values from STDIN.
 --
--- >>> stack exec multiplyApp 12 15
+-- >>> stack exec multiply 12 15
 -- 180
 main :: IO ()
 main = do

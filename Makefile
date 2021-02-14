@@ -59,7 +59,7 @@ doc:
 .PHONY: exec
 exec:	$(SRC)
 	@echo Multiply: 15 x 12 = 180 ...
-	@stack exec multiplyApp 15 12
+	@stack exec multiply 15 12
 
 .PHONY: setup
 setup:

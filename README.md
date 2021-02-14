@@ -62,5 +62,5 @@ make bench
 To run the default multiplication algorithm (`multiply4`):
 
 ```bash
-stack exec multiplyApp 12 15
+stack exec multiply 12 15
 ```
