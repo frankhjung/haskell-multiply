@@ -76,5 +76,6 @@ clean:
 
 .PHONY: cleanall
 cleanall: clean
-	-$(RM) -rf public dist
+	-$(RM) -rf public dist .stack-work
 	-$(RM) $(TGT)
+	-@stack clean --full
