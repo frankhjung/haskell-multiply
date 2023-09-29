@@ -2,7 +2,9 @@
 -- See Hoogle, http://www.haskell.org/hoogle/
 
 
--- | Please see the README on GitLab at
+-- | A number of different algorithms for integer multiplication
+--   
+--   Please see the README on GitLab at
 --   <a>https://github.com/frankhjung/haskell-multiply#readme</a>
 @package multiply
 @version 0.2.0
