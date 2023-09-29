@@ -36,7 +36,8 @@ test:
 	@stack test
 
 exec:
-	@stack exec -- $(TARGET) $(ARGS) +RTS -s
+	stack exec -- $(TARGET)
+	stack exec -- $(TARGET) $(ARGS) +RTS -s
 
 bench:
 	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'

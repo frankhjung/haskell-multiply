@@ -41,8 +41,8 @@ usage = [
 main :: IO ()
 main = do
     args <- getArgs
-    case length args of
-      2 ->  let as = map read args :: [Word]
-            in print $ multiply0 (head as) (as !! 1)
-      _ ->  putStrLn $ unlines usage
+    let as = map read args :: [Word]
+    case as of
+      [a, b] -> print $ multiply0 a b
+      _      -> putStrLn $ unlines usage
 
