@@ -16,7 +16,7 @@ module Main (main) where
 import           System.Environment (getArgs)
 
 import           Data.Version       (showVersion)
-import           Multiply           (multiply4)
+import           Multiply           (multiply0)
 import           Paths_multiply     (version)
 
 -- Read two numbers from command line to multiply together using
@@ -42,7 +42,7 @@ main :: IO ()
 main = do
     args <- getArgs
     case length args of
-      2 ->  let [a, b] = map read args :: [Word]
-            in print $ multiply4 a b
+      2 ->  let as = map read args :: [Word]
+            in print $ multiply0 (head as) (as !! 1)
       _ ->  putStrLn $ unlines usage
 

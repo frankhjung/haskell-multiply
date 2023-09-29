@@ -5,34 +5,35 @@ stages:
   - deploy
 
 build:
+  stage: build
   except:
     - tags
   image:
-    name: frankhjung/haskell:8.8.4
+    name: frankhjung/haskell:9.2.8
     entrypoint: [""]
-  stage: build
   variables:
-    STACK_ROOT: ${CI_PROJECT_DIR}/.stack
+    PROJECT: multiply
+    RTSOPTS: +RTS -N1 -s
+    STACK_ROOT: ${CI_PROJECT_DIR}/.stack-work
   script:
-    - make setup clean check build test doc bench
-    - mv $(stack path --local-doc-root) public/
+    - make setup clean check build test bench doc
+    - mv $(stack path --local-install-root)/doc/${PROJECT}*/ public/
+    - cp -fp ${STACK_ROOT}/benchmark.html public/
   artifacts:
     paths:
       - public
   cache:
-    key: ${CI_COMMIT_REF_NAME}-${CI_JOB_NAME}
+    key: ${CI_COMMIT_REF_NAME}
     paths:
-      - .stack
-      - .stack-work
+      - ${STACK_ROOT}
 
 pages:
-  only:
-    refs:
-      - master
-  image: alpine:latest
   stage: deploy
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "master"'
+  image: alpine:latest
   script:
-    - echo Publishing documentation ...
+    - echo Publish documentation ...
   dependencies:
     - build
   artifacts:

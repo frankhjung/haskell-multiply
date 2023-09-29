@@ -1,15 +1,17 @@
-cabal-version: 1.12
+cabal-version:      3.0
 
 name:               multiply
-version:            0.1.0
+version:            0.2.0
+synopsis:	    A number of different algorithms for integer multiplication
 description:        Please see the README on GitLab at <https://github.com/frankhjung/haskell-multiply#readme>
 homepage:           https://github.com/frankhjung/haskell-multiply#readme
 bug-reports:        https://github.com/frankhjung/haskell-multiply/issues
 author:             Frank H Jung
 maintainer:         frankhjung@linux.com
-copyright:          Copyright © 2021 Frank H Jung
-license:            BSD3
+copyright:          Copyright © 2021-2023 Frank H Jung
+license:            BSD-3-Clause
 license-file:       LICENSE
+category:           education
 build-type:         Simple
 extra-source-files: README.md
 
@@ -17,40 +19,44 @@ source-repository   head
   type:             git
   location:         https://github.com/frankhjung/haskell-multiply
 
-library
-  exposed-modules:  Multiply
-  hs-source-dirs:   src
-  default-language: Haskell2010
-  build-depends:    base
-
 executable          multiply
-  main-is:          MultiplyApp.hs
-  hs-source-dirs:   app
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-  other-modules:    Paths_multiply
-  build-depends:    base
+  main-is:          Main.hs
+  hs-source-dirs:   app
+                  , src
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
+  other-modules:    Multiply
+                  , Paths_multiply
+  build-depends:    base >= 4.13 && < 5.0
                   , multiply
+  autogen-modules:  Paths_multiply
+
+library
+  default-language: Haskell2010
+  hs-source-dirs:   src
+  exposed-modules:  Multiply
+  ghc-options:      -Wall
+  build-depends:    base
 
 test-suite          test
-  hs-source-dirs:   test
-  main-is:          TestsSpec.hs
   default-language: Haskell2010
-  ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+  hs-source-dirs:   test
+                  , src
+  main-is:          TestSpec.hs
   type:             exitcode-stdio-1.0
+  ghc-options:      -Wall -threaded -rtsopts -with-rtsopts=-N
+  other-modules:    Multiply
   build-depends:    base
                   , hspec
                   , QuickCheck
                   , multiply
-  build-tool-depends:
-                    hspec-discover:hspec-discover
-  other-modules:    MultiplySpec
 
-benchmark           multiplyBench
-  main-is:          MultiplyBench.hs
-  hs-source-dirs:   bench
+benchmark           benchmark
   default-language: Haskell2010
+  hs-source-dirs:   bench
+                  , src
+  main-is:          Bench.hs
   type:             exitcode-stdio-1.0
+  other-modules:    Multiply
   build-depends:    base
                   , criterion
-                  , multiply

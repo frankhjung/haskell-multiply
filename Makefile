@@ -1,81 +1,67 @@
 #!/usr/bin/env make
 
-.SUFFIXES:
-.SUFFIXES: .o .hs
+.PHONY:	default all bench clean check cleanall doc exec ghci setup style tags test
 
-SRC	:= $(wildcard src/*.hs app/*.hs test/*.hs bench/*.hs)
-TGT 	:= multiply
-ROOT	:= $(shell stack path --local-doc-root)
+TARGET	:= multiply
+SUBS	:= $(wildcard */)
+SRCS	:= $(wildcard $(addsuffix *.hs, $(SUBS)))
 
-.PHONY: default
-default:check fast
+ARGS	?= 15 12
 
-.PHONY: check
+default: check build test
+
+all:	check build test bench doc exec
+
 check:	tags style lint
 
-.PHONY: all
-all:	check build test doc bench exec
-
-.PHONY: tags
-tags:	$(SRC)
+tags:
 	@echo tags ...
-	@hasktags --ctags --extendedctag $(SRC)
+	@hasktags --ctags --extendedctag $(SRCS)
 
-.PHONY: style
-style:	$(SRC)
+style:
 	@echo style ...
-	@stylish-haskell --config=.stylish-haskell.yaml --inplace $(SRC)
+	@stylish-haskell --verbose --config=.stylish-haskell.yaml --inplace $(SRCS)
 
-.PHONY: lint
-lint:	$(SRC)
+lint:
 	@echo lint ...
-	@hlint --cross --color --show $(SRC)
+	@hlint --color $(SRCS)
+	@cabal check --verbose=3
 
-.PHONY: fast
-fast:
-	@echo fast build ...
-	@stack build --fast --test
-
-.PHONY: build
 build:
 	@echo build ...
-	@stack build --pedantic --no-test
+	@stack build --verbosity info --pedantic --no-test
 
-.PHONY: test
 test:
 	@echo test ...
 	@stack test
 
-.PHONY: bench
+exec:
+	@stack exec -- $(TARGET) $(ARGS) +RTS -s
+
 bench:
-	@echo bench ...
-	@stack bench multiply:bench:multiplyBench --benchmark-arguments '-o $(ROOT)/benchmark.html'
+	@stack bench --benchmark-arguments '-o .stack-work/benchmark.html'
 
-.PHONY: doc
 doc:
-	@echo doc ...
-	@stack haddock --no-rerun-tests --no-reconfigure --haddock-deps
+	@stack haddock --no-haddock-deps
 
-.PHONY: exec
-exec:	$(SRC)
-	@echo Multiply: 15 x 12 = 180 ...
-	@stack exec multiply 15 12
-
-.PHONY: setup
 setup:
-	@stack update
-	@stack setup
-	@stack build
-	@stack query
-	@stack ls dependencies
-	#stack exec ghc-pkg -- list
+	stack update
+	stack path
+	stack query
+	stack ls dependencies
 
-.PHONY: clean
+ghci:
+	@stack ghci --ghci-options -Wno-type-defaults
+
 clean:
 	@stack clean
+	@cabal clean
+	@rm -f tags
+	@rm -f $(wildcard *.hi **/*.hi)
+	@rm -f $(wildcard *.o **/*.o)
+	@rm -f $(wildcard *.prof **/*.prof)
+	@rm -f $(wildcard *.tix **/*.tix)
 
-.PHONY: cleanall
 cleanall: clean
-	-$(RM) -rf public dist .stack-work
-	-$(RM) $(TGT)
-	-@stack clean --full
+	@stack clean --full
+	@$(RM) -rf .stack-work/ $(TARGET)

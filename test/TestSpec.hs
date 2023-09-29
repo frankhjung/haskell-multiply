@@ -1,15 +1,16 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module MultiplySpec (spec) where
+module Main (main) where
 
 import           Multiply              (multiply0, multiply1, multiply2,
                                         multiply3, multiply4)
 
-import           Test.Hspec            (Spec, describe)
+import           Test.Hspec            (describe, hspec)
 import           Test.Hspec.QuickCheck (prop)
 
-spec :: Spec
-spec =
+main :: IO ()
+main = hspec $
+
   describe"multiplication algorithms for natural numbers" $ do
     prop "multiply0" $
       \(a :: Word, b :: Word) -> multiply0 a b == a * b

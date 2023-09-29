@@ -1,12 +1,7 @@
 ---
-
 arch: x86_64
 system-ghc: true
-resolver: lts-16.31
+resolver: lts-20.26
 allow-newer: true
 flags: {}
 packages: ['.']
-extra-deps:
-  - criterion-1.5.7.0
-  - hspec-2.7.6
-  - QuickCheck-2.13.2
